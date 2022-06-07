@@ -17,13 +17,13 @@ class List extends React.PureComponent {
         const { navigation, title, content } = this.props
         return (
             <View style={styles.list}>
-                <View>
+                <View style={styles.list}>
                     <Text style={styles.text}>{title}</Text>
                 </View>
                 <View>
                     {/* <Text>{title}</Text> */}
 
-                    <FlatList data={content} horizontal={true}
+                    <FlatList data={content} horizontal={true} 
                     renderItem={
                         ({ item }) => <Card navigation={navigation} item={item}/>}
                         >
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     list: {
         marginTop: 20,
-
+        backgroudnColor: 'black'
     },
 })
 

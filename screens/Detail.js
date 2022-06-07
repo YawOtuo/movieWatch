@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import {
-    Pressable, Text, View, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator
-    , Modal
+    Pressable, Text, View, Image, StyleSheet, Dimensions, ScrollView,
+     ActivityIndicator
+    , Modal, Linking
 } from 'react-native'
 import { getMovie } from '../services/services';
 import StarRating from 'react-native-star-rating';
 import dateFormat from 'dateformat';
 import Playbutton from '../components/playbutton';
+import Video from 'react-native-video';
+import Vp from '../components/Vp';
+import Youtube from '../components/youtube';
 
 
 const placeholderImage = require('../assets/images/placeholder.png')
@@ -29,12 +33,17 @@ const Detail = ({ route, navigation }) => {
         getMovie(movieId).then(
             movieData => {
                 setDetail(movieData)
-                console.log('movies here')
+                console.log(movieData)
                 setLoaded(true)
             }
         )
 
     }, [movieId])
+
+    const openurl = () => {
+        Linking.openURL(`https://www.youtube.com/results?search_query=${detail.title}`)}
+
+    
     return (
         <React.Fragment>
             {loaded && (
@@ -50,7 +59,7 @@ const Detail = ({ route, navigation }) => {
                                 } />
                             <View style={styles.container}>
                                 <View style={styles.playbutton}>
-                                    <Playbutton handlePress={videoShown} />
+                                    <Playbutton handlePress={openurl} />
                                 </View>
                                 <Text style={styles.title}>{detail.title}</Text>
 
@@ -67,18 +76,27 @@ const Detail = ({ route, navigation }) => {
                                     disabled={true} fullStarColor={'gold'}
                                     starSize={30} rating={detail.vote_average / 2} />
 
-                                <Text style={styles.overview}>{detail.overview}</Text>
+                                <Text style={styles.detailOverview}>{detail.overview}</Text>
                                 <Text style={styles.release_date}>{'Release Date: ' + dateFormat(detail.release_date, 'dd mmmm yyyy')}</Text>
 
                             </View>
-
+                            <View>
+                            </View>
                         </View>
 
                     </ScrollView>
                     <Modal animationType='slide' visible={modalVisible}
                     >
-                        <View style={styles.container}>
-                          
+                        <View>
+                            <Text style={styles.modalText}>Click on th button to go back    </Text>
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => setModalVisible(!modalVisible)}
+
+                            ></Pressable>
+                        </View>
+                        <View style={styles.videoplayer}>
+                            < Youtube movieId={detail.imdb_id}/>
                         </View>
 
                     </Modal>
@@ -99,12 +117,12 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             position: 'relative',
             backgroundColor: 'rgb(1,2, 4)',
-            color: 'black',
+            color: 'white',
             width: '100%',
 
         },
         image: {
-            height: height / 1,
+            height: height / 1.5,
             width: '100%',
 
 
@@ -114,7 +132,7 @@ const styles = StyleSheet.create(
             fontWeight: '300',
             color: 'white',
             padding: '5%',
-            backgroundColor: 'rgb(1,2, 4)'
+            // backgroundColor: 'rgb(1,2, 4)'
 
         },
         title: {
@@ -130,8 +148,8 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: 'rgb(1,2, 4)',
-            color: 'black',
-            marginBottom: '5%'
+            color: 'white',
+            marginBottom: '4%'
         },
         genreText: {
             marginRight: '5%',
@@ -142,8 +160,45 @@ const styles = StyleSheet.create(
             position: 'absolute',
             top: -25,
             right: 20,
+        },
+        videoplayer: {
+            height: 500,
+            justifyContent: 'center',
+            flex: 1
+        },
+        button: {
+            borderRadius: 20,
+            padding: 10,
+            elevation: 2
+        },
+        buttonOpen: {
+            backgroundColor: "#F194FF",
+        },
+        buttonClose: {
+            backgroundColor: "#2196F3",
+        },
+        modalText: {
+            marginBottom: 15,
+            textAlign: "center",
+            color: 'black'
+          },
+          detailOverview:{
+              color: 'white',
+              lineHeight: 30,
+              padding: 40
+          },
+        release_data: {
+            color: 'white'
         }
     }
 )
-
+var styles2 = StyleSheet.create({
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+});
 export default Detail;

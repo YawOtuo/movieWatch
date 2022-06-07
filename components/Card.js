@@ -1,7 +1,11 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Image, Text} from 'react-native'
 import PropTypes from 'prop-types'
+
+
+import { useRoute } from '@react-navigation/native';
 const placeholderImage = require('../assets/images/placeholder.png')
+
 
 const propTypes = {
     item: PropTypes.object,
@@ -10,10 +14,9 @@ const propTypes = {
 class Card extends React.PureComponent {
     render() {
         const {navigation, item} = this.props
-        console.log(item)
         // console.log(item)
         return (
-            <TouchableOpacity style={styles.container} 
+            <TouchableOpacity style={!this.props.from_search ? styles.container : styles_search.container} 
             onPress={()=> navigation.navigate('Detail',{
                 movieId: item.id
             })}>
@@ -33,6 +36,33 @@ class Card extends React.PureComponent {
         );
     }
 }
+
+const styles_search = StyleSheet.create({
+    container: {
+        padding: 5,
+        position: 'relative',
+        color: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 200,
+      //   paddingBottom: 50,
+        marginBottom: 150,
+        backgroundColor: 'white'
+      },
+      image:{
+          height: 300,
+          width: 120,
+          borderRadius: 5
+      },
+      movieName:{
+          position: "absolute",
+          width: 120,
+          textAlign: 'center',
+  
+      }
+     
+     
+})
 const styles = StyleSheet.create({
     container: {
       padding: 5,
@@ -41,12 +71,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       height: 200,
-  
+    //   paddingBottom: 50,
+      marginBottom: 20,
+      backgroundColor: 'white'
     },
     image:{
         height: 300,
         width: 120,
-        borderRadius: 20
+        borderRadius: 15
     },
     movieName:{
         position: "absolute",

@@ -42,14 +42,16 @@ const Home = ({navigation}) => {
       popularmoviesData,
       documentariesData,
       familymoviesData]) => {
+
       const moviesImagesArray = []
+
       moviesImagesData.forEach(movie => {
         moviesImagesArray.push('https://image.tmdb.org/t/p/w500' + movie.poster_path)
 
       })
       setMoviesImages(moviesImagesArray)
-
-      setPopularTv(popularTvData)
+      setDocumentaries(popularTvData)
+      setPopularTv(documentariesData)
       setPopularMovies(popularmoviesData)
       setFamilyMovies(familymoviesData)
 
@@ -65,27 +67,15 @@ const Home = ({navigation}) => {
 
       })
 
-    // getPopularTv().then(movies => {
-    //   console.log(movies, 'moviessssssss')
-    // })
-    //   .catch(err => {
-    //     setError(err)
-    //   })
-
-    // getUpcomingMovies().then(movies => {
-
-    //   // console.log(moviesImagesArray)
-    // })
-    //   .catch(err => {
-    //     setError(err)
-    //   })
+    
 
   }, [])
     ;
 
   return (
     <React.Fragment >
-      
+      <View style={styles.mainView}>
+
       {loaded && !error && (<ScrollView>
         {moviesImages && (
           <View style={styles.sliderContainer}>
@@ -135,22 +125,24 @@ const Home = ({navigation}) => {
       {!loaded && (<ActivityIndicator size={'large'}/>
 )}  
       {error && <Error/>}
+      </View>
+
     </React.Fragment>
   );
 }
 
 const styles = StyleSheet.create({
+  mainView:{
+    backgroundColor: 'white',
+  },
   sliderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    color: 'white'
-
-
+    color: 'black',
+    position: 'relative',
   },
-
-  
   carousel: {
     marginTop: 15,
     flex: 1,
@@ -158,7 +150,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     color: 'black'
-
   }
 })
 

@@ -44,3 +44,11 @@ export const getPopularMovies = async () => {
     // console.log(resp.data.results, 'respa')
     return resp.data;
   }
+
+  //search for movie or tv by keyword
+  export const searchMovieTv = async (query, type) => {
+    const resp = await axios.get(
+      `${apiUrl}/search/${type}?api_key=${apiKey}&query=${query}`)
+      // console.log(resp.data.results, 'respa')
+    return resp.data.results;
+  }
